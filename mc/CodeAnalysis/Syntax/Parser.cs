@@ -82,16 +82,28 @@ namespace Minsk.CodeAnalysis.Syntax
         private ExpressionSyntax ParsePrimaryExpression()
         {
 
-            if (Current.Kind == SyntaxKind.OpenParenthesisToken)
+            switch (Current.Kind)
             {
-                var left = NextToken();
-                var expression = ParseExpression();
-                var right = MatchToken(SyntaxKind.CloseParenthesisToken);
-                return new ParenthesizedExpressionSyntax(left, expression, right);
-            }
-            var numberToken = MatchToken(SyntaxKind.NumberToken);
-            return new LiteralExpressionSyntax(numberToken);
+                case SyntaxKind.OpenParenthesisToken:
+                {
+                    var left = NextToken();
+                    var expression = ParseExpression();
+                    var right = MatchToken(SyntaxKind.CloseParenthesisToken);
+                    return new ParenthesizedExpressionSyntax(left, expression, right);
+                }
 
+                case SyntaxKind.TrueKeyWord:
+                case SyntaxKind.FalseKeyWord:
+                {
+                    var keyWordToken = NextToken();
+                    var value = Current.Kind == SyntaxKind.TrueKeyWord;
+                    return new LiteralExpressionSyntax(keyWordToken, value);
+                }
+
+                default:
+                    var numberToken = MatchToken(SyntaxKind.NumberToken);
+                    return new LiteralExpressionSyntax(numberToken);
+            }
         }
 
         private SyntaxToken Peek(int offset)
@@ -103,7 +115,6 @@ namespace Minsk.CodeAnalysis.Syntax
             }
             return _tokens[index];
         }
-
         private SyntaxToken Current => Peek(0);
     }
 

@@ -1,4 +1,6 @@
-﻿namespace Minsk.CodeAnalysis.Syntax
+﻿using System;
+
+namespace Minsk.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts
     {
@@ -27,6 +29,19 @@
                     return 3;
                 default:
                     return 0;
+            }
+        }
+
+        internal static SyntaxKind GetKeyWordKind(string text)
+        {
+            switch (text)
+            {
+                case "true":
+                    return SyntaxKind.TrueKeyWord;
+                case "false":
+                    return SyntaxKind.FalseKeyWord;
+                default:
+                    return SyntaxKind.IdentifierToken;
             }
         }
     }

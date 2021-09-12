@@ -13,12 +13,17 @@
         StarToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
+        IdentifierToken,
+
 
         //expression
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-     
+
+        //key word
+        TrueKeyWord,
+        FalseKeyWord,
     }
 }
