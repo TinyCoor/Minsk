@@ -4,9 +4,9 @@ namespace Minsk.CodeAnalysis
 {
    public sealed class LiteralExpressionSyntax : ExpressionSyntax
 {
-    public LiteralExpressionSyntax(SyntaxToken numberToken)
+    public LiteralExpressionSyntax(SyntaxToken literalToken)
     {
-        LiteralToken= numberToken;
+        LiteralToken= literalToken;
     }
 
     public override IEnumerable<SyntaxNode> GetChildren(){
@@ -14,7 +14,7 @@ namespace Minsk.CodeAnalysis
         yield return LiteralToken;
     }
 
-    public override SyntaxKind Kind => SyntaxKind.NumberExpression;
+    public override SyntaxKind Kind => SyntaxKind.LiteralExpression;
     public SyntaxToken LiteralToken { get; }
 }
     
