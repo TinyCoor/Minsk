@@ -45,7 +45,6 @@ namespace mc.CodeAnalysis.Binding
             return new BoundBinaryExpression(boundLeft,boundOperator, boundRight);
 
         }
-
   
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
@@ -57,65 +56,6 @@ namespace mc.CodeAnalysis.Binding
                 return boundOperand;
             }
             return new BoundUnaryExpression(boundOperator, boundOperand);
-        }
-
-        private BoundUnaryOperatorKind? BindUnaryOperator(SyntaxKind kind,Type operandType)
-        {
-            if (operandType == typeof(int))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.PlusToken:
-                        return BoundUnaryOperatorKind.Addition;
-                    case SyntaxKind.MinusToken:
-                        return BoundUnaryOperatorKind.Negation;
-
-                }
-            }
-
-            if(operandType == typeof(bool))
-            {
-                switch (kind)
-                {
-  
-                    case SyntaxKind.BangToken:
-                        return BoundUnaryOperatorKind.LogicNegation;
-                }
-
-            }
-            return null;
-        }
-
-        private BoundBinaryOperatorKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
-        {
-            if (leftType == typeof(int) && rightType == typeof(int))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.PlusToken:
-                        return BoundBinaryOperatorKind.Addition;
-                    case SyntaxKind.MinusToken:
-                        return BoundBinaryOperatorKind.LogicalOr;
-                    case SyntaxKind.StarToken:
-                        return BoundBinaryOperatorKind.Multiplication;
-                    case SyntaxKind.SlashToken:
-                        return BoundBinaryOperatorKind.Division;
-                }
-            }
-
-            if (leftType == typeof(bool) && rightType == typeof(bool))
-            {
-                switch (kind)
-                {
-                    case SyntaxKind.AmpersandAmpersandToken:
-                        return BoundBinaryOperatorKind.LogicalAnd;
-                    case SyntaxKind.PipePipeToken:
-                        return BoundBinaryOperatorKind.LogicalOr;
-                }
-            }
-
-            return null;
-
         }
     }
 }
