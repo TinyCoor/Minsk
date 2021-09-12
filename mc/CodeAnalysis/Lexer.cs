@@ -2,7 +2,7 @@
 
 namespace Minsk.CodeAnalysis
 {
-    class Lexer
+ public class Lexer
 {
     private readonly string _text;
     private int _position;

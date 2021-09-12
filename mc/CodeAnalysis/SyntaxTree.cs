@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Minsk.CodeAnalysis
 {
-    class SyntaxTree
+   public sealed class SyntaxTree
 {
 
     public SyntaxTree(IEnumerable<string> diagnostics,ExpressionSyntax root,SyntaxToken endOfFile)

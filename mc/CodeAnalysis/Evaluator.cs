@@ -3,7 +3,7 @@ using System;
 namespace Minsk.CodeAnalysis
 {
 
-    class Evaluator {
+   public class Evaluator {
     public Evaluator(ExpressionSyntax root) {
         _root = root;
     }
@@ -18,9 +18,9 @@ namespace Minsk.CodeAnalysis
     private int EvaluateExpression(ExpressionSyntax node)
     {
         //binary 
-        if(node is NumberExpressionSyntax n)
+        if(node is LiteralExpressionSyntax n)
         {
-            return (int)n.NumberToken.Value;
+            return (int)n.LiteralToken.Value;
         }
         if(node is BinaryExpressionSyntax b)
         {

@@ -5,9 +5,9 @@ using Minsk.CodeAnalysis;
 
 namespace mc
 {
-    class Program
+   internal static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             bool showTree = false;
             while (true)
@@ -33,22 +33,20 @@ namespace mc
 
                 if (showTree)
                 {
-                    var color = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     PrettyPrint(syntaxTree.Root);
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
          
 
                 if (syntaxTree.Diagnostics.Any())
                 {
-                    var color = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkRed;
 
                     foreach (var diagnostic in syntaxTree.Diagnostics)
                         Console.WriteLine(diagnostic);
-                
-                    Console.ForegroundColor = color;
+
+                    Console.ResetColor(); 
                 }
                 else
                 {
