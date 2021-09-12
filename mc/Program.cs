@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Minsk.CodeAnalysis.Syntax;
 using Minsk.CodeAnalysis;
 
 namespace mc
@@ -29,6 +30,7 @@ namespace mc
                     Console.Clear();
                     continue;
                 }
+
                 var syntaxTree = SyntaxTree.Parse(line);
 
                 if (showTree)

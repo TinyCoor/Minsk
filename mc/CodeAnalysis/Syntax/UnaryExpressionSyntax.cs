@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
     public sealed class UnaryExpressionSyntax : ExpressionSyntax
     {
@@ -14,7 +14,6 @@ namespace Minsk.CodeAnalysis
         {
             yield return OperatorToken;
             yield return Operand;
-
         }
 
         public override SyntaxKind Kind => SyntaxKind.UnaryExpression;

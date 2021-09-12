@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
     public class Parser
     {
@@ -60,7 +60,6 @@ namespace Minsk.CodeAnalysis
                 var operatorToken = NextToken();
                 var operand = ParseExpression(unaryOperatorPrecedence);
                 left = new UnaryExpressionSyntax(operatorToken, operand);
-
             }
             else
             {
@@ -79,8 +78,6 @@ namespace Minsk.CodeAnalysis
             }
             return left;
         }
-
-
 
         private ExpressionSyntax ParsePrimaryExpression()
         {

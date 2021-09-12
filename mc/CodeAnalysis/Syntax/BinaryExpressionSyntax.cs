@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Minsk.CodeAnalysis
+namespace Minsk.CodeAnalysis.Syntax
 {
     public sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
@@ -16,14 +16,12 @@ namespace Minsk.CodeAnalysis
             yield return Left;
             yield return OperatorToken;
             yield return Right;
-
         }
 
         public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
         public ExpressionSyntax Left { get; }
         public ExpressionSyntax Right { get; }
         public SyntaxToken OperatorToken { get; }
-
     }
 
 }
