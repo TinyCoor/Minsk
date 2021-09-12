@@ -20,7 +20,6 @@ namespace Minsk.CodeAnalysis
 
         private object EvaluateExpression(BoundExpression node)
         {
-            //binary 
             if (node is BoundLiteralExpression n)
             {
                 return n.Value;
@@ -29,7 +28,7 @@ namespace Minsk.CodeAnalysis
             {
                 var operand =EvaluateExpression(u.Operand);
 
-                switch (u.OperatorKind)
+                switch (u.Op.Kind)
                 {
                     case BoundUnaryOperatorKind.Negation:
                         return -(int)operand;
@@ -46,7 +45,7 @@ namespace Minsk.CodeAnalysis
                 var left =EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                switch (b.OperatorKind)
+                switch (b.Op.Kind)
                 {
                     case BoundBinaryOperatorKind.Addition:
                         return (int)left + (int)right;

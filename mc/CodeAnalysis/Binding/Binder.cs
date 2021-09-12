@@ -36,13 +36,13 @@ namespace mc.CodeAnalysis.Binding
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
-            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind,boundLeft.Type,boundRight.Type);
-            if (boundOperatorKind == null)
+            var boundOperator= BoundBinaryOperator.Bind(syntax.OperatorToken.Kind,boundLeft.Type,boundRight.Type);
+            if (boundOperator == null)
             {
                 _diagnostics.Add($"Binary operator syntax `{syntax.OperatorToken.Text}`  is not defined for type {boundLeft.Type} and {boundRight.Type} ");
                 return boundLeft;
             }
-            return new BoundBinaryExpression(boundLeft,boundOperatorKind.Value, boundRight);
+            return new BoundBinaryExpression(boundLeft,boundOperator, boundRight);
 
         }
 
@@ -50,13 +50,13 @@ namespace mc.CodeAnalysis.Binding
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
-            var boundOperatorKind = BindUnaryOperator(syntax.OperatorToken.Kind,boundOperand.Type);
-            if(boundOperatorKind == null)
+            var boundOperator= BoundUnaryOperator.Bind(syntax.OperatorToken.Kind,boundOperand.Type);
+            if(boundOperator == null)
             {
                 _diagnostics.Add($"Unary operator syntax `{syntax.OperatorToken.Text}`  is not defined for type {boundOperand.Type}");
                 return boundOperand;
             }
-            return new BoundUnaryExpression(boundOperatorKind.Value, boundOperand);
+            return new BoundUnaryExpression(boundOperator, boundOperand);
         }
 
         private BoundUnaryOperatorKind? BindUnaryOperator(SyntaxKind kind,Type operandType)
