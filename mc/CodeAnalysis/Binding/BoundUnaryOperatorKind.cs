@@ -4,7 +4,6 @@
     {
         Addition,
         Negation,
-
-
+        LogicNegation,
     }
 }

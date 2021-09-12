@@ -14,6 +14,9 @@
         OpenParenthesisToken,
         CloseParenthesisToken,
         IdentifierToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
 
 
         //expression
@@ -25,5 +28,6 @@
         //key word
         TrueKeyWord,
         FalseKeyWord,
+  
     }
 }
