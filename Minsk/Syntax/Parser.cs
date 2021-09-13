@@ -2,11 +2,12 @@
 
 namespace Minsk.CodeAnalysis.Syntax
 {
-    public class Parser
+    internal class Parser
     {
         private readonly SyntaxToken[] _tokens;
         private int _position;
-        private List<string> _diagnostics = new List<string>();
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(string _text)
         {
             var lexer = new Lexer(_text);
@@ -20,15 +21,13 @@ namespace Minsk.CodeAnalysis.Syntax
                 {
                     tokens.Add(token);
                 }
-
             } while (token.Kind != SyntaxKind.EndOfFileToken);
 
             _tokens = tokens.ToArray();
             _diagnostics.AddRange(lexer.Diagnostics);
         }
 
-        public IEnumerable<string> Diagnostics => _diagnostics;
-
+      
         private SyntaxToken NextToken()
         {
             var current = Current;
@@ -42,7 +41,7 @@ namespace Minsk.CodeAnalysis.Syntax
                 return NextToken();
 
 
-            _diagnostics.Add($"ERROR: Unexpoected Token <{Current.Kind}>, expected <{kind}>");
+            _diagnostics.ReportUnexpectedToken(Current.Span,Current.Kind,kind);
             return new SyntaxToken(kind, Current.Position, null, null);
         }
         public SyntaxTree Parse()

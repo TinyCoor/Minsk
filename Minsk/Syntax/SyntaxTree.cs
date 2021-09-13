@@ -6,7 +6,7 @@ namespace Minsk.CodeAnalysis.Syntax
     public sealed class SyntaxTree
     {
 
-        public SyntaxTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFile)
+        public SyntaxTree(IEnumerable<Diagnostic> diagnostics, ExpressionSyntax root, SyntaxToken endOfFile)
         {
             Diagnostics = diagnostics.ToArray();
             Root = root;
@@ -19,7 +19,7 @@ namespace Minsk.CodeAnalysis.Syntax
             return parser.Parse();
         }
 
-        public IReadOnlyList<string> Diagnostics { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
         public ExpressionSyntax Root { get; }
         public SyntaxToken EndOfFile { get; }
     }
