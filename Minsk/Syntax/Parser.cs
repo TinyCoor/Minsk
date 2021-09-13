@@ -7,6 +7,7 @@ namespace Minsk.CodeAnalysis.Syntax
         private readonly SyntaxToken[] _tokens;
         private int _position;
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        private SyntaxToken Current => Peek(0);
         public DiagnosticBag Diagnostics => _diagnostics;
         public Parser(string _text)
         {
@@ -27,7 +28,7 @@ namespace Minsk.CodeAnalysis.Syntax
             _diagnostics.AddRange(lexer.Diagnostics);
         }
 
-      
+
         private SyntaxToken NextToken()
         {
             var current = Current;
@@ -41,7 +42,7 @@ namespace Minsk.CodeAnalysis.Syntax
                 return NextToken();
 
 
-            _diagnostics.ReportUnexpectedToken(Current.Span,Current.Kind,kind);
+            _diagnostics.ReportUnexpectedToken(Current.Span, Current.Kind, kind);
             return new SyntaxToken(kind, Current.Position, null, null);
         }
         public SyntaxTree Parse()
@@ -50,14 +51,14 @@ namespace Minsk.CodeAnalysis.Syntax
             var endOfFile = MatchToken(SyntaxKind.EndOfFileToken);
             return new SyntaxTree(_diagnostics, expression, endOfFile);
         }
-        private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
+        private ExpressionSyntax ParseBinaryExpression(int parentPrecedence = 0)
         {
             ExpressionSyntax left;
             var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
-            if(unaryOperatorPrecedence !=0 && unaryOperatorPrecedence >= parentPrecedence)
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
                 var operatorToken = NextToken();
-                var operand = ParseExpression(unaryOperatorPrecedence);
+                var operand = ParseBinaryExpression(unaryOperatorPrecedence);
                 left = new UnaryExpressionSyntax(operatorToken, operand);
             }
             else
@@ -67,17 +68,36 @@ namespace Minsk.CodeAnalysis.Syntax
             while (true)
             {
                 var precedence = Current.Kind.GetBinaryOperatorPrecedence();
-                if(precedence == 0 || precedence <= parentPrecedence)
+                if (precedence == 0 || precedence <= parentPrecedence)
                 {
                     break;
                 }
-                var operatorToken = NextToken(); 
-                var right = ParseExpression(precedence);
+                var operatorToken = NextToken();
+                var right = ParseBinaryExpression(precedence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
             return left;
         }
 
+        private ExpressionSyntax ParseAssignmentExpression()
+        {
+
+            if (Peek(0).Kind == SyntaxKind.IdentifierToken && 
+                Peek(1).Kind == SyntaxKind.EqualsToken)
+            {
+                var identifierToken = NextToken();
+                var operatorToken = NextToken();
+                var right = ParseAssignmentExpression();
+                return new AssignmentExpressionSyntax(identifierToken, operatorToken, right);
+            }
+
+            return ParseBinaryExpression();
+
+        }
+        private ExpressionSyntax ParseExpression()
+        {
+            return ParseAssignmentExpression();
+        }
         private ExpressionSyntax ParsePrimaryExpression()
         {
 
@@ -98,7 +118,12 @@ namespace Minsk.CodeAnalysis.Syntax
                     var value = keyWordToken.Kind == SyntaxKind.TrueKeyWord;
                     return new LiteralExpressionSyntax(keyWordToken, value);
                 }
-
+                case SyntaxKind.IdentifierToken:
+                {
+                     
+                    var identifierToken = NextToken();
+                    return new NameExpressionSyntax(identifierToken);
+                }
                 default:
                     var numberToken = MatchToken(SyntaxKind.NumberToken);
                     return new LiteralExpressionSyntax(numberToken);
@@ -114,7 +139,6 @@ namespace Minsk.CodeAnalysis.Syntax
             }
             return _tokens[index];
         }
-        private SyntaxToken Current => Peek(0);
     }
 
 }

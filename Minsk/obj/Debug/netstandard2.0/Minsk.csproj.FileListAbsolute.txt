@@ -6,4 +6,3 @@ D:\Programming\c#\minsk\Minsk\obj\Debug\netstandard2.0\Minsk.AssemblyInfoInputs.
 D:\Programming\c#\minsk\Minsk\obj\Debug\netstandard2.0\Minsk.AssemblyInfo.cs
 D:\Programming\c#\minsk\Minsk\obj\Debug\netstandard2.0\Minsk.dll
 D:\Programming\c#\minsk\Minsk\obj\Debug\netstandard2.0\Minsk.pdb
-D:\Programming\c#\minsk\Minsk\obj\Debug\netstandard2.0\Minsk.csprojAssemblyReference.cache

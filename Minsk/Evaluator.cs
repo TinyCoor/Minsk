@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using mc.CodeAnalysis.Binding;
 
 namespace Minsk.CodeAnalysis
@@ -8,9 +9,12 @@ namespace Minsk.CodeAnalysis
     internal class Evaluator
     {
         private  BoundExpression _root { get; }
-        public Evaluator(BoundExpression root)
+        public Dictionary<VariableSymbol, object> _variables { get; }
+
+        public Evaluator(BoundExpression root, Dictionary<VariableSymbol, object> variables)
         {
             _root = root;
+            _variables = variables;
         }
 
         public object Evaluate()
@@ -24,6 +28,21 @@ namespace Minsk.CodeAnalysis
             {
                 return n.Value;
             }
+
+            if(node is BoundVariableExpression v)
+            {
+                var value = _variables[v.Variable];
+                return value;
+            }
+
+            if (node is BoundAssignmentExpression a)
+            {
+                var value = EvaluateExpression(a.Expression);
+                _variables[a.Variable] = value;
+                return value;
+            }
+
+
             if (node is BoundUnaryExpression u)
             {
                 var operand =EvaluateExpression(u.Operand);

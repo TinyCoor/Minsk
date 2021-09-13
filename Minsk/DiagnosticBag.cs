@@ -48,9 +48,15 @@ namespace Minsk.CodeAnalysis
             Report(span, message);
         }
 
-        internal void ReportUndefinedBinaryOperator(TextSpan span, string operatorTokenText, Type leftOperandType, Type rightOperandType)
+        public void ReportUndefinedBinaryOperator(TextSpan span, string operatorTokenText, Type leftOperandType, Type rightOperandType)
         {
             var message = $"Binary operator syntax `{operatorTokenText}`  is not defined for type {leftOperandType} and {rightOperandType}";
+            Report(span, message);
+        }
+
+        public void ReportUndefinedName(TextSpan span, string name)
+        {
+            var message = $"Variable: `{name}`  is not defined ";
             Report(span, message);
         }
     }

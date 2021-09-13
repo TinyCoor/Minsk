@@ -4,6 +4,7 @@
     {
         //Tokens 
         BadToken,
+        EqualsToken,
         EndOfFileToken,
         NumberToken,
         WhiteSpaceToken,
@@ -22,14 +23,16 @@
 
 
         //expression
+        NameExpression,
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
+        AssignmentExpression,
         ParenthesizedExpression,
 
         //key word
         TrueKeyWord,
         FalseKeyWord,
-       
+  
     }
 }

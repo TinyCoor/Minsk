@@ -12,6 +12,8 @@ namespace mc
         static void Main()
         {
             bool showTree = false;
+            var variables = new Dictionary<VariableSymbol, object>();
+
             while (true)
             {
                 Console.Write("> ");
@@ -34,7 +36,7 @@ namespace mc
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
-                var result = compilation.Evaluate();
+                var result = compilation.Evaluate(variables);
 
                 var diagnostics = result.Diagnostics;
                 if (showTree)
