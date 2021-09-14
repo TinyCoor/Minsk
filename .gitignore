@@ -2,3 +2,5 @@
 /mc/bin
 /mc/.vs
 .vs
+./Minsk/bin
+./Minsk/obj
